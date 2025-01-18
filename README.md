@@ -42,7 +42,9 @@ However, if you want to reduce the hardware setup cost to just 1-2k, you can imp
 - HTTP Protocols  
 - Model Deployment on Servers  
 - YOLO (You Only Look Once) Object Detection  
-
+---
+![Screenshot_2025-01-14-10-22-21-91_e307a3f9df9f380ebaf106e1dc980bb6](https://github.com/user-attachments/assets/22a2ea14-39c5-4dc8-ad5d-a27415b8cf74)
+![Screenshot_2025-01-14-10-22-37-56_e307a3f9df9f380ebaf106e1dc980bb6](https://github.com/user-attachments/assets/27fce27a-a10f-428d-9d8a-601e8672f5dd)
 
 
    
