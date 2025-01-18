@@ -35,14 +35,64 @@
 - SMTP
 
 ---
-I know that implementing this approach just to detect hostile intruders is way too costly. The hardware setup would cost somewhere around 7-8k (if Raspberry Pi 4B is used), whereas in the commercial market, basic AI cameras are available for 2-3k.  
-But the advantage we have here is that we can customize the setup the way we want. For instance, I integrated two different cameras so that if someone tries to tamper with the setup, their face can still be captured. Similarly, we can also deploy face recognition so that if we are not at home and an unknown person decides to pay a visit, we are alerted. The code and implementation of this face recognition will also be posted in the repo at a later point in time after optimizing it for better FPS.  
 
-However, if you want to reduce the hardware setup cost to just 1-2k, you can implement this project using an ESP32-CAM and deploy your YOLO model on a server. For that, you will need to know the basics of:  
-- HTTP Protocols  
-- Model Deployment on Servers  
-- YOLO (You Only Look Once) Object Detection  
+# Object Detection on Edge Devices using YOLO Models
+
+In this project, I aimed to achieve maximum FPS while running object detection models on Raspberry Pi (RPI). Although these models run seamlessly on computers/laptops, running them on edge devices requires some optimization.  
+
+I have uploaded the **YOLOv8 (NCNN)** and **YOLOv5 (ONNX)** versions, which can be easily executed using Python scripts.  
+
 ---
+
+##  Folder Contents
+
+### 1. YOLOv5
+- **best.onnx**: Custom YOLOv5 model in ONNX framework (optimized for edge devices).  
+- **bestdivit.pt**: Custom YOLOv5 model in PyTorch framework (not recommended for edge devices; suitable for devices with better hardware).  
+- **onnx.py**: Python script to run the ONNX version of the model.  
+- **with_gmail.py**: Modified `onnx.py` with email alert functionality (reduces FPS slightly).  
+- **final.py**: ONNX script with email alerts and IR sensor integration.  
+  - FPS comparison: `onnx.py > with_gmail.py > final.py`
+
+### 2. YOLOv8
+- **best(8).pt**: Custom YOLOv8 model in PyTorch framework.  
+- **model.ncnn.bin** and **model.ncnn(1).param**: Custom YOLOv8 model in NCNN framework.  
+- **yolov8_final.py**: Python script to run the NCNN version of the model.
+
+---
+
+##  Implementation Details
+
+### Failed Attempts
+1. YOLOv8 (PyTorch): Adjusted resolution to achieve 2-3 FPS, but accuracy was poor.  
+2. YOLOv8 (NCNN): Integrated NCNN and optimized resolution for higher FPS, but accuracy remained subpar.  
+3. Pretrained Custom Models: Tested several GitHub models for detection. While accurate, FPS was very low (0.5-1 FPS, trained on YOLOv8).  
+
+### Successful Attempts
+1. **YOLOv5**: Trained a custom model and converted it from PyTorch to ONNX (success).  
+2. **YOLOv8**: Trained a custom model and converted it from PyTorch to NCNN (via ONNX) (success).  
+
+---
+
+##  Key Observations
+- For **normal object detection** without identification, FPS improves significantly (10-15 FPS).  
+- The **current setup cost (~₹7-8k)** using a Raspberry Pi 4B is high compared to commercial AI cameras (~₹2-3k). However, this setup provides extensive customization options:  
+  - Integration of two cameras to capture tampering attempts.  
+  - Integrating IR sensors for detection if someone is tampering the setup.  
+
+### Cost-Effective Alternative:
+If you wish to reduce the hardware cost to **₹1-2k**, you can use an ESP32-CAM and deploy the YOLO model on a server.  
+
+---
+
+##  Advantages
+- Full customization for specific use cases.  
+- Ability to integrate additional functionalities (e.g., tamper-proofing, face recognition).  
+- Greater flexibility in hardware and software configurations compared to commercial solutions.
+ 
+---
+
+## Screenshots of email notification 
 ![Screenshot_2025-01-14-10-22-21-91_e307a3f9df9f380ebaf106e1dc980bb6](https://github.com/user-attachments/assets/22a2ea14-39c5-4dc8-ad5d-a27415b8cf74)
 ![Screenshot_2025-01-14-10-22-37-56_e307a3f9df9f380ebaf106e1dc980bb6](https://github.com/user-attachments/assets/27fce27a-a10f-428d-9d8a-601e8672f5dd)
 
